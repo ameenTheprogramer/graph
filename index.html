@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn-Time Graph</title>
+</head>
+<body>
+    <input type="number" id="earnInput" placeholder="Enter earning amount">
+    <canvas id="earnTimeGraph" width="400" height="400"></canvas>
+
+    <script>
+        // Constants
+        let earns = 0; // Default value
+        const date = new Date(); // Today's date
+
+        // Function to calculate days between two dates
+        function daysBetween(date1, date2) {
+            const oneDay = 1000 * 60 * 60 * 24;
+            const diffInTime = date2.getTime() - date1.getTime();
+            return Math.round(diffInTime / oneDay);
+        }
+
+        // Get today's date
+        const today = new Date();
+
+        // Get the input element
+        const earnInput = document.getElementById('earnInput');
+        earnInput.addEventListener('input', function() {
+            earns = parseFloat(earnInput.value) || 0; // Assign entered value to earns
+            drawGraph(); // Redraw graph when input changes
+        });
+
+        // Create a canvas context
+        const canvas = document.getElementById('earnTimeGraph');
+        const ctx = canvas.getContext('2d');
+
+        // Function to draw the graph
+        function drawGraph() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw X and Y axis
+            ctx.beginPath();
+            ctx.moveTo(30, 0);
+            ctx.lineTo(30, canvas.height - 30);
+            ctx.lineTo(canvas.width, canvas.height - 30);
+            ctx.stroke();
+
+            // Draw axis labels
+            ctx.font = "12px Arial";
+            ctx.fillText("Days", canvas.width - 30, canvas.height - 10);
+            ctx.fillText("Earns", 10, 10);
+
+            // Calculate days between today's date and the given date
+            const days = daysBetween(date, today);
+
+            // Draw earn-time data point
+            ctx.beginPath();
+            ctx.arc(30 + days, canvas.height - 30 - earns, 5, 0, Math.PI * 2);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        // Initial draw
+        drawGraph();
+    </script>
+</body>
+</html>
