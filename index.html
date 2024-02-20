@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn-Time Graph</title>
+</head>
+<body>
+    <canvas id="earnTimeGraph" width="400" height="400"></canvas>
+
+    <script>
+        // Constants
+        const earns = 100; // You can change this value
+        const date = new Date(); // Today's date
+
+        // Function to calculate days between two dates
+        function daysBetween(date1, date2) {
+            const oneDay = 1000 * 60 * 60 * 24;
+            const diffInTime = date2.getTime() - date1.getTime();
+            return Math.round(diffInTime / oneDay);
+        }
+
+        // Get today's date
+        const today = new Date();
+
+        // Calculate days between today's date and the given date
+        const days = daysBetween(date, today);
+
+        // Create a canvas context
+        const canvas = document.getElementById('earnTimeGraph');
+        const ctx = canvas.getContext('2d');
+
+        // Draw graph
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height);
+        ctx.lineTo(canvas.width, 0);
+        ctx.stroke();
+
+        // Draw earn-time data point
+        ctx.beginPath();
+        ctx.arc(days, canvas.height - earns, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+        ctx.closePath();
+    </script>
+</body>
+</html>
